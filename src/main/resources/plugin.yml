@@ -1,0 +1,18 @@
+name: ObsilionFreezer
+main: es.obsilion.freezer.ObsilionFreezer
+author: SnakeAmazing
+version: 1.0
+api-version: 1.13
+
+commands:
+  freeze:
+    usage: /<command>
+    aliases:
+      - congelar
+    permission: obsilionfreezer.use
+
+  unfreeze:
+    usage: /<command>
+    aliases:
+      - descongelar
+    permission: obsilionfreezer.use
