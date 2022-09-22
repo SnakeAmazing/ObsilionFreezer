@@ -30,13 +30,12 @@ public final class ConfigManager<C> {
     }
 
     public static <C> ConfigManager<C> create(ObsilionFreezer obsilionFreezer, Path configFolder, String fileName, Class<C> configClass) {
-        // SnakeYaml example
         SnakeYamlOptions yamlOptions = new SnakeYamlOptions.Builder()
-                .commentMode(CommentMode.alternativeWriter()) // Enables writing YAML comments
+                .commentMode(CommentMode.alternativeWriter())
                 .build();
         ConfigurationFactory<C> configFactory = SnakeYamlConfigurationFactory.create(
                 configClass,
-                ConfigurationOptions.defaults(), // change this if desired
+                ConfigurationOptions.defaults(),
                 yamlOptions);
         return new ConfigManager<>(new ConfigurationHelper<>(configFolder, fileName, configFactory), obsilionFreezer);
     }
