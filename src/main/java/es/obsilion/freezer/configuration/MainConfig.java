@@ -39,4 +39,7 @@ public interface MainConfig {
 
     @ConfDefault.DefaultString("&b&lFREEZER &7» &cYou can't do that while you are frozen.")
     String cantDoThat();
+
+    @ConfDefault.DefaultStrings("&b&lFREEZER &7» &aA partir de ahora, solo el moderador verá tus mensajes.")
+    String chatOnlySeenByMods();
 }

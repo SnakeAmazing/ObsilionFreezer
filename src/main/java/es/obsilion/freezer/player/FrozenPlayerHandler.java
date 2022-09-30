@@ -2,6 +2,7 @@ package es.obsilion.freezer.player;
 
 import org.bukkit.entity.Player;
 
+import java.util.Collection;
 import java.util.UUID;
 
 public interface FrozenPlayerHandler {
@@ -15,4 +16,6 @@ public interface FrozenPlayerHandler {
     boolean check(Player player);
 
     UUID getOperator(Player player);
+
+    Collection<UUID> getFrozenPlayers();
 }
