@@ -9,7 +9,7 @@ import java.util.*;
 
 public class SimpleFrozenPlayerHandler implements FrozenPlayerHandler {
 
-    private final Map<UUID, UUID> frozenPlayers = new HashMap<>();
+    private final Map<UUID, FrozenPlayer> frozenPlayers = new HashMap<>();
 
     private final MainConfig config;
 
@@ -19,7 +19,9 @@ public class SimpleFrozenPlayerHandler implements FrozenPlayerHandler {
 
     @Override
     public void add(Player player, Player operator) {
-        frozenPlayers.put(player.getUniqueId(), operator.getUniqueId());
+        FrozenPlayer frozenPlayer = new FrozenPlayer(player.getUniqueId(), operator.getUniqueId());
+        frozenPlayers.put(player.getUniqueId(), frozenPlayer);
+
         player.sendMessage(MessageDecorator.decorate(config.youHaveBeenFrozen()));
         player.sendMessage(MessageDecorator.decorate(config.chatOnlySeenByMods()));
         operator.sendMessage(MessageDecorator.decorate(config.youHaveFrozenPlayer()));
@@ -48,13 +50,16 @@ public class SimpleFrozenPlayerHandler implements FrozenPlayerHandler {
 
     @Override
     public UUID getOperator(Player player) {
-        return frozenPlayers.get(player.getUniqueId());
+        return frozenPlayers.get(player.getUniqueId()).getOperator();
     }
 
     @Override
-    public Collection<UUID> getFrozenPlayers() {
-        return frozenPlayers.values();
+    public Collection<UUID> getVictims() {
+        return frozenPlayers.keySet();
     }
 
-
+    @Override
+    public Collection<FrozenPlayer> getFrozenPlayers() {
+        return frozenPlayers.values();
+    }
 }

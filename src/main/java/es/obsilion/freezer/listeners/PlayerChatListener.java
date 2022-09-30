@@ -1,14 +1,17 @@
 package es.obsilion.freezer.listeners;
 
 import es.obsilion.freezer.ObsilionFreezer;
+import es.obsilion.freezer.player.FrozenPlayer;
 import es.obsilion.freezer.player.FrozenPlayerHandler;
 import io.papermc.paper.event.player.AsyncChatEvent;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.HoverEvent;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
+import java.util.Collection;
 import java.util.UUID;
 
 public class PlayerChatListener implements Listener {
@@ -32,7 +35,21 @@ public class PlayerChatListener implements Listener {
             return;
         }
 
-        for (UUID uuid : frozenHandler.getFrozenPlayers()) {
+        for (FrozenPlayer frozenPlayer : frozenHandler.getFrozenPlayers()) {
+            if (frozenPlayer.getOperator() == event.getPlayer().getUniqueId()) {
+                Collection<? extends Player> players = Bukkit.getOnlinePlayers();
+                players.remove(Bukkit.getPlayer(frozenPlayer.getOperator()));
+                players.remove(Bukkit.getPlayer(frozenPlayer.getVictim()));
+
+                for (Player player : players) {
+                    event.viewers().remove(player);
+                }
+
+                return;
+            }
+        }
+
+        for (UUID uuid : frozenHandler.getVictims()) {
             event.viewers().remove(Bukkit.getPlayer(uuid));
         }
     }

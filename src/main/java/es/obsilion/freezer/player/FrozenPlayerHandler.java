@@ -17,5 +17,7 @@ public interface FrozenPlayerHandler {
 
     UUID getOperator(Player player);
 
-    Collection<UUID> getFrozenPlayers();
+    Collection<UUID> getVictims();
+
+    Collection<FrozenPlayer> getFrozenPlayers();
 }
