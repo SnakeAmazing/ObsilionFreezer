@@ -37,11 +37,10 @@ public class PlayerChatListener implements Listener {
 
         for (FrozenPlayer frozenPlayer : frozenHandler.getFrozenPlayers()) {
             if (frozenPlayer.getOperator() == event.getPlayer().getUniqueId()) {
-                Collection<? extends Player> players = Bukkit.getOnlinePlayers();
-                players.remove(Bukkit.getPlayer(frozenPlayer.getOperator()));
-                players.remove(Bukkit.getPlayer(frozenPlayer.getVictim()));
-
-                for (Player player : players) {
+                for (Player player : Bukkit.getOnlinePlayers()) {
+                    if (frozenPlayer.getOperator() == player.getUniqueId() || frozenPlayer.getVictim() == player.getUniqueId()) {
+                        continue;
+                    }
                     event.viewers().remove(player);
                 }
 
