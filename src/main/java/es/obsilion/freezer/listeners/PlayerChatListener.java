@@ -9,6 +9,7 @@ import net.kyori.adventure.text.event.HoverEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 
 import java.util.Collection;
@@ -22,7 +23,7 @@ public class PlayerChatListener implements Listener {
         this.frozenHandler = plugin.getFrozenHandler();
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.LOW)
     public void onPlayerChatEvent(AsyncChatEvent event) {
         if (frozenHandler.contains(event.getPlayer())) {
             event.viewers().clear();
