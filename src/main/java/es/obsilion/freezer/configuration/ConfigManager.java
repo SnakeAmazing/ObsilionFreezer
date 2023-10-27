@@ -2,6 +2,7 @@ package es.obsilion.freezer.configuration;
 
 import es.obsilion.freezer.ObsilionFreezer;
 import org.bukkit.Bukkit;
+import org.yaml.snakeyaml.Yaml;
 import space.arim.dazzleconf.ConfigurationFactory;
 import space.arim.dazzleconf.ConfigurationOptions;
 import space.arim.dazzleconf.error.ConfigFormatSyntaxException;
@@ -31,6 +32,7 @@ public final class ConfigManager<C> {
 
     public static <C> ConfigManager<C> create(ObsilionFreezer obsilionFreezer, Path configFolder, String fileName, Class<C> configClass) {
         SnakeYamlOptions yamlOptions = new SnakeYamlOptions.Builder()
+                .yamlSupplier(Yaml::new)
                 .commentMode(CommentMode.alternativeWriter())
                 .build();
         ConfigurationFactory<C> configFactory = SnakeYamlConfigurationFactory.create(
