@@ -10,6 +10,9 @@ import space.arim.dazzleconf.annote.ConfHeader;
 })
 public interface MainConfig {
 
+    @ConfDefault.DefaultInteger(5)
+    int timeToWaitBeforeSendingMessage();
+
     @ConfDefault.DefaultString("&b&lFREEZER &7» &cThis command can only be run by players.")
     String onlyPlayer();
 

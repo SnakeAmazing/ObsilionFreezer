@@ -10,6 +10,7 @@ import java.util.*;
 public class SimpleFrozenPlayerHandler implements FrozenPlayerHandler {
 
     private final Map<UUID, FrozenPlayer> frozenPlayers = new HashMap<>();
+    private final Map<UUID, Long> messageTimes = new HashMap<>();
 
     private final MainConfig config;
 
@@ -21,6 +22,7 @@ public class SimpleFrozenPlayerHandler implements FrozenPlayerHandler {
     public void add(Player player, Player operator) {
         FrozenPlayer frozenPlayer = new FrozenPlayer(player.getUniqueId(), operator.getUniqueId());
         frozenPlayers.put(player.getUniqueId(), frozenPlayer);
+        messageTimes.put(player.getUniqueId(), System.currentTimeMillis());
 
         player.sendMessage(MessageDecorator.decorate(config.youHaveBeenFrozen()));
         player.sendMessage(MessageDecorator.decorate(config.chatOnlySeenByMods()));
@@ -41,7 +43,14 @@ public class SimpleFrozenPlayerHandler implements FrozenPlayerHandler {
     @Override
     public boolean check(Player player) {
         if (contains(player)) {
-            player.sendMessage(MessageDecorator.decorate(config.cantDoThat()));
+            long time = messageTimes.get(player.getUniqueId());
+
+            if (time < System.currentTimeMillis()) {
+                messageTimes.put(player.getUniqueId(), System.currentTimeMillis()
+                        + (config.timeToWaitBeforeSendingMessage() * 1000L));
+                player.sendMessage(MessageDecorator.decorate(config.cantDoThat()));
+            }
+
             return true;
         }
 
